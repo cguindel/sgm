@@ -17,8 +17,11 @@
 
 cmake_minimum_required(VERSION 2.4)
 project(sgm)
-find_package( OpenCV REQUIRED )
 find_package( CUDA REQUIRED )
+
+# Force the node to use OpenCV 3.1 instead of OpenCV 2.4.8
+set(OpenCV_DIR "/usr/local/opencv3/share/OpenCV/")
+find_package(OpenCV 3 REQUIRED)
 
 set(
     CUDA_NVCC_FLAGS
@@ -29,6 +32,8 @@ set(
     -gencode=arch=compute_50,code=sm_50
     -gencode=arch=compute_52,code=sm_52
     )
+
+include_directories(${OpenCV_INCLUDE_DIRS})
 
 cuda_add_executable(
     sgm
